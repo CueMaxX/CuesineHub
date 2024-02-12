@@ -1,102 +1,80 @@
 <?php
-// Include database connection file
-include_once("config.php");
+	if (session_status() === PHP_SESSION_NONE) {
+		session_start();
+	}
+	include_once("config.php");
 
-if(isset($_POST['update']))
-{	
-	// Retrieve record values
-	$id = mysqli_real_escape_string($mysqli, $_POST['id']);
-	$name = mysqli_real_escape_string($mysqli, $_POST['name']);
-	$age = mysqli_real_escape_string($mysqli, $_POST['age']);
-	$email = mysqli_real_escape_string($mysqli, $_POST['email']);	
-
+	$id = $name = $age = $email = "";
 	$nameErr = $ageErr = $emailErr = "";
-	
-	// Check for empty fields
-	if(empty($name) || empty($age) || empty($email)) {	
-		if(empty($name)) {
-			$nameErr = "* required";
+
+	// Check if the form was submitted
+	if(isset($_POST['update'])) {  
+		$id = $_POST['id']; // Assuming ID is passed as a hidden field in the form
+		$name = mysqli_real_escape_string($mysqli, $_POST['name']);
+		$age = mysqli_real_escape_string($mysqli, $_POST['age']);
+		$email = mysqli_real_escape_string($mysqli, $_POST['email']);  
+
+		// Validate input
+		if(empty($name)) $nameErr = "Name is required";
+		if(empty($age)) $ageErr = "Age is required";
+		if(empty($email)) $emailErr = "Email is required";
+
+		// If no errors, proceed with update
+		if(empty($nameErr) && empty($ageErr) && empty($emailErr)) {  
+			$stmt = $mysqli->prepare("UPDATE contacts SET name=?, age=?, email=? WHERE id=?");
+			$stmt->bind_param("sisi", $name, $age, $email, $id);
+			$stmt->execute();
+
+			// Set success message and redirect
+			$_SESSION['success_message'] = 'Contact updated successfully.';
+			header("Location: index.php");
+			exit();
 		}
-		if(empty($age)) {
-			$ageErr = "* required";
+	}
+
+	// Retrieve recipe details for editing
+	if(isset($_GET['id'])) {
+		$id = $_GET['id'];
+		$result = mysqli_query($mysqli, "SELECT * FROM contacts WHERE id=$id");
+		if($result) {
+			$res = mysqli_fetch_assoc($result);
+			$name = $res['name'];
+			$age = $res['age'];
+			$email = $res['email'];
 		}
-		if(empty($email)) {
-			$emailErr = "* required";
-		}		
-	} else {	
-		// Execute UPDATE 
-		$stmt = $mysqli->prepare("UPDATE contacts SET name=?, age=?, email=? WHERE id=?");
-		$stmt->bind_param("sisi", $name, $age, $email, $id);
-		$stmt->execute();
-
-		// Redirect to home page (index.php)
-		header("Location: index.php");
 	}
-}
-else if (isset($_POST['cancel'])) {
-	// Redirect to home page (index.php)
-	header("Location: index.php");
-}
-?>
-<?php
-// Retrieve id value from querystring parameter
-$id = $_GET['id'];
 
-// Get contact by id
-$result = mysqli_query($mysqli, "SELECT * FROM contacts WHERE id=$id");
-
-if (!$result) {
-    printf("Error: %s\n", mysqli_error($mysqli));
-    exit();
-}
-else {
-	while($res = mysqli_fetch_array($result))
-	{
-		$name = $res['name'];
-		$age = $res['age'];
-		$email = $res['email'];
-	}
-}
 ?>
-<html>
-<head>	
-	<title>Edit Contact</title>
-	<link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-	<form name="form1" method="post" action="edit.php?id=<?php echo $id ?>">
-		<table>
-			<tr> 
-				<td>Name</td>
-				<td>
-					<input type="text" name="name" value="<?php echo $name;?>">
-					<span class="error"><?php echo $nameErr;?></span>
-				</td>
-			</tr>
-			<tr> 
-				<td>Age</td>
-				<td>
-					<input type="text" name="age" value="<?php echo $age;?>">
-					<span class="error"><?php echo $ageErr;?></span>
-				</td>
-			</tr>
-			<tr> 
-				<td>Email</td>
-				<td>
-					<input type="text" name="email" value="<?php echo $email;?>">
-					<span class="error"><?php echo $emailErr;?></span>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<input class="cancel" type="submit" name="cancel" value="Cancel">
-				</td>
-				<td>
-					<input type="submit" name="update" value="Update">
-					<input type="hidden" name="id" value=<?php echo $_GET['id'];?>>
-				</td>
-			</tr>
-		</table>
-	</form>
-</body>
-</html>
+
+<form name="editForm" method="post" action="index.php?page=edit&id=<?php echo htmlspecialchars($id); ?>">
+    <!-- Name field -->
+    <div class="mb-3">
+        <label for="inputName" class="form-label">Name</label>
+        <input type="text" class="form-control <?php echo $nameErr ? 'is-invalid' : ''; ?>" id="inputName" name="name" value="<?php echo htmlspecialchars($name);?>">
+        <div class="invalid-feedback">
+            <?php echo $nameErr; ?>
+        </div>
+    </div>
+
+    <!-- Age field -->
+    <div class="mb-3">
+        <label for="inputAge" class="form-label">Age</label>
+        <input type="number" class="form-control <?php echo $ageErr ? 'is-invalid' : ''; ?>" id="inputAge" name="age" value="<?php echo htmlspecialchars($age);?>">
+        <div class="invalid-feedback">
+            <?php echo $ageErr; ?>
+        </div>
+    </div>
+
+    <!-- Email field -->
+    <div class="mb-3">
+        <label for="inputMail" class="form-label">E-Mail</label>
+        <input type="email" class="form-control <?php echo $emailErr ? 'is-invalid' : ''; ?>" id="inputMail" name="email" value="<?php echo htmlspecialchars($email);?>">
+        <div class="invalid-feedback">
+            <?php echo $emailErr; ?>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" name="update" value="Update">Update</button>
+    <button type="button" class="btn btn-secondary" onclick="window.location.href='index.php';">Cancel</button>
+    <input type="hidden" name="id" value="<?php echo $id; ?>">
+</form>
