@@ -5,7 +5,7 @@
 	include_once("config.php");
 
 	// Fetch contacts (in descending order)
-	$result = mysqli_query($mysqli, "SELECT * FROM contacts ORDER BY id DESC"); 
+	$result = mysqli_query($mysqli, "SELECT * FROM recipe.all ORDER BY id DESC"); 
 ?>
 <html>
 	<head>	
@@ -48,7 +48,7 @@
 							<tr>
 								<th>Recipe</th>
 								<th>Cooking Time</th>
-								<th>Author</th>
+								<th>Difficulty</th>
 								<th><a class="btn btn-primary" href="index.php?page=add">Add Recipe</a></th>
 							</tr>
 						</thead>
@@ -57,9 +57,9 @@
 								// Print recipes 
 								while ($res = mysqli_fetch_array($result)) {
 									echo "<tr>";
-									echo "<td><a href=\"index.php?page=details\">" . htmlspecialchars($res['name']) . "</a></td>";
-									echo "<td>" . htmlspecialchars($res['age']) . "</td>";
-									echo "<td>" . htmlspecialchars($res['email']) . "</td>";    
+									echo "<td><a href=\"index.php?page=details\">" . htmlspecialchars($res['title']) . "</a></td>";
+									echo "<td>" . htmlspecialchars($res['time_minutes']) . " Minutes </td>";
+									echo "<td>" . htmlspecialchars($res['difficulty']) . "</td>";    
 									echo "<td>
 										<a href=\"index.php?page=edit&id=" . htmlspecialchars($res['id']) . "\" class=\"btn btn-success\">Edit</a> 
 										<a href=\"#\" class=\"btn btn-danger\" data-bs-toggle=\"modal\" data-bs-target=\"#deleteConfirmationModal\" data-delete-url=\"delete.php?id=" . htmlspecialchars($res['id']) . "\">Delete</a>

@@ -7,7 +7,7 @@
         $id = $_GET['id'];
 
         // Delete row for a specified id
-        if ($stmt = $mysqli->prepare("DELETE FROM contacts WHERE id=?")) {
+        if ($stmt = $mysqli->prepare("DELETE FROM recipe.all WHERE id=?")) {
             $stmt->bind_param("i", $id);
             if ($stmt->execute()) {
                 // Redirect to home page (index.php) if successful
