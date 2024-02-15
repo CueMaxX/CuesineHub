@@ -46,9 +46,9 @@ else {
 //?>
 
 <div class="container mt-5">
-    <h1><?php echo $recipeName; ?></h1>
-    <p><?php echo $cookingDetails; ?></p>
-    <img src="<?php echo $imageSrc; ?>" alt="Recipe Image" class="img-fluid">
+    <h1><?php echo $title; ?></h1>
+    <p><?php echo $notes; ?></p>
+    <img src="<?php echo $picture; ?>" alt="Recipe Image" class="img-fluid">
     <h3>Ingredients for <span id="servings"><?php echo $defaultServings; ?></span> servings:</h3>
     <ul id="ingredientList">
         <?php foreach ($ingredients as $ingredient): ?>
