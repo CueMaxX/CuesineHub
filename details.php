@@ -1,16 +1,49 @@
 <?php
+
+include_once("config.php");
+// Retrieve id value from querystring parameter
+//$id = $_GET['id'];
+$id = 1;
+
+// Get contact by id
+$result = mysqli_query($mysqli, "SELECT * FROM recipe.all WHERE id=$id");
+
+if (!$result) {
+    printf("Error: %s\n", mysqli_error($mysqli));
+    exit();
+}
+else {
+	while($res = mysqli_fetch_array($result))
+	{
+		$title = $res['title'];
+		$steps = $res['steps'];
+		$ingredients = $res['ingredients'];
+        $difficulty = $res['difficulty'];
+        $picture = $res['picture'];
+        $notes = $res['notes'];
+        $time_minutes = $res['time_minutes'];
+        $portions = $res['portions'];
+        $tags = $res['tags'];
+	}
+}
+?>
+
+
+
+
+
 // Mockup of a simulated recipe data to test the JS
-$recipeName = "Spaghetti Carbonara";
-$cookingDetails = "A quick traditional Italian dish with eggs, cheese, bacon, and black pepper.";
-$imageSrc = "resources/img/carbonara.jpg"; // Placeholder image path, we should upload our images obviously to the DB
-$ingredients = [
+//$recipeName = "Spaghetti Carbonara";
+//$cookingDetails = "A quick traditional Italian dish with eggs, cheese, bacon, and black pepper.";
+//$imageSrc = "resources/img/carbonara.jpg"; // Placeholder image path, we should upload our images obviously to the DB
+//$ingredients = [
     ["name" => "Pasta", "amount" => 100, "unit" => "g"],
     ["name" => "Eggs", "amount" => 2, "unit" => "pcs"],
     ["name" => "Bacon", "amount" => 50, "unit" => "g"],
     ["name" => "Heavy Cream", "amount" => 50, "unit" => "ml"]
-];
-$defaultServings = 2;
-?>
+//];
+//$defaultServings = 2;
+//?>
 
 <div class="container mt-5">
     <h1><?php echo $recipeName; ?></h1>
