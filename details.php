@@ -2,8 +2,8 @@
 
 include_once("config.php");
 // Retrieve id value from querystring parameter
-//$id = $_GET['id'];
-$id = 2;
+$id = $_GET['id'];
+//$id = 2;
 
 // Get contact by id
 $result = mysqli_query($mysqli, "SELECT * FROM recipe.all WHERE id=$id");
@@ -30,7 +30,7 @@ else {
 
 
 
-
+<?php
 
 // Mockup of a simulated recipe data to test the JS
 //$recipeName = "Spaghetti Carbonara";
@@ -43,7 +43,7 @@ else {
     ["name" => "Heavy Cream", "amount" => 50, "unit" => "ml"]
 //];
 //$defaultServings = 2;
-//?>
+?>
 
 <div class="container mt-5">
     <h1><?php echo $title; ?></h1>
@@ -56,7 +56,7 @@ else {
         <?php endforeach; ?>
     </ul>
     <label for="numPeople">Number of Servings:</label>
-    <input type="number" id="numPeople" value="<?php echo $defaultServings; ?>" min="1" onchange="adjustIngredients()">
+    <input type="number" id="numPeople" value="<?php echo $portions; ?>" min="1" onchange="adjustIngredients()">
 </div>
 
 <script>
