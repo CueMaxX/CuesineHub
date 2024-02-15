@@ -29,23 +29,6 @@ else {
 }
 ?>
 
-
-
-<?php
-
-// Mockup of a simulated recipe data to test the JS
-//$recipeName = "Spaghetti Carbonara";
-//$cookingDetails = "A quick traditional Italian dish with eggs, cheese, bacon, and black pepper.";
-//$imageSrc = "resources/img/carbonara.jpg"; // Placeholder image path, we should upload our images obviously to the DB
-//$ingredients = [
-    ["name" => "Pasta", "amount" => 100, "unit" => "g"],
-    ["name" => "Eggs", "amount" => 2, "unit" => "pcs"],
-    ["name" => "Bacon", "amount" => 50, "unit" => "g"],
-    ["name" => "Heavy Cream", "amount" => 50, "unit" => "ml"]
-//];
-//$defaultServings = 2;
-?>
-
 <div class="container mt-5">
     <h1><?php echo $title; ?></h1>
     <p><?php echo $notes; ?></p>
