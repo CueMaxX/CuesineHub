@@ -5,7 +5,7 @@
 	include_once("config.php");
 
 	// Fetch contacts (in descending order)
-	$result = mysqli_query($mysqli, "SELECT * FROM recipe.all ORDER BY id DESC"); 
+	$result = mysqli_query($mysqli, "SELECT * FROM recipes ORDER BY id DESC"); 
 ?>
 <html>
 	<head>	
@@ -19,58 +19,76 @@
 			<div class="bg-body-teritiary p-5 rounded">
 				<?php
 				
-				// Display success message
-				if (isset($_SESSION['success_message'])) {
-					echo "
-						<div class='alert alert-success alert-dismissible fade show'>
-							<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-						" . $_SESSION['success_message'] . "</div>";
-					unset($_SESSION['success_message']);
-				}
-
-				// Check if the 'page' query parameter is set
-				if (isset($_GET['page'])) {
-					$page = $_GET['page'];
-					// Whitelist of allowed pages
-					$allowedPages = ['add', 'edit', 'details'];
-					// Check if the requested page is in the whitelist and include it
-					if (in_array($page, $allowedPages)) {
-						include $page . '.php';
-					} else {
-						echo "Page not found.";
+					// Display success message
+					if (isset($_SESSION['success_message'])) {
+						echo "
+							<div class='alert alert-success alert-dismissible fade show'>
+								<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+							" . $_SESSION['success_message'] . "</div>";
+						unset($_SESSION['success_message']);
 					}
-				} else {
-					// Default content or homepage
-					?>
-					<h1>Recipe List</h1>
-					<table class="table table-hover">
-						<thead>
-							<tr>
-								<th>Recipe</th>
-								<th>Cooking Time</th>
-								<th>Difficulty</th>
-								<th><a class="btn btn-primary" href="index.php?page=add">Add Recipe</a></th>
-							</tr>
-						</thead>
-						<tbody>
-							<?php
-								// Print recipes 
-								while ($res = mysqli_fetch_array($result)) {
-									echo "<tr>";
-									echo "<td><a href=\"index.php?page=details&id=" . htmlspecialchars($res['id']) . "\" >" . htmlspecialchars($res['title']) . "</a></td>";
-									echo "<td>" . htmlspecialchars($res['time_minutes']) . " Minutes </td>";
-									echo "<td>" . htmlspecialchars($res['difficulty']) . "</td>";    
-									echo "<td>
-										<a href=\"index.php?page=edit&id=" . htmlspecialchars($res['id']) . "\" class=\"btn btn-success\">Edit</a> 
-										<a href=\"#\" class=\"btn btn-danger\" data-bs-toggle=\"modal\" data-bs-target=\"#deleteConfirmationModal\" data-delete-url=\"delete.php?id=" . htmlspecialchars($res['id']) . "\">Delete</a>
-									</td>";
-									echo "</tr>";
-								}
-							?>
-						</tbody>
-					</table>
-					<?php
-				}
+
+					// Display debug information if debug info is uncommented in add.php
+					if (isset($_SESSION['debug_info'])) {
+						echo $_SESSION['debug_info'];
+						unset($_SESSION['debug_info']); // Clear the session variable
+					}
+
+					// Check if the 'page' query parameter is set
+					if (isset($_GET['page'])) {
+						$page = $_GET['page'];
+						// Whitelist of allowed pages
+						$allowedPages = ['add', 'edit', 'details'];
+						// Check if the requested page is in the whitelist and include it
+						if (in_array($page, $allowedPages)) {
+							include $page . '.php';
+						} else {
+							echo "Page not found.";
+						}
+					} else {
+						// Default content or homepage
+						?>
+							<h1>Recipe List</h1>
+							<hr>
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										<th>Recipe</th>
+										<th>Cooking Time</th>
+										<th>Difficulty</th>
+										<th><a class="btn btn-primary" href="index.php?page=add">Add Recipe</a></th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php
+										// Print recipes 
+										while ($res = mysqli_fetch_array($result)) {
+											echo "<tr>";
+											echo "<td><a href=\"index.php?page=details&id=" . htmlspecialchars($res['id']) . "\" >" . htmlspecialchars($res['title']) . "</a></td>";
+											echo "<td>" . htmlspecialchars($res['time_minutes']) . " Minutes </td>";
+											echo "<td>";
+											// Display difficulty level based on integer value
+											if ($res['difficulty'] == 1) {
+												echo "Easy";
+											} elseif ($res['difficulty'] == 2) {
+												echo "Medium";
+											} elseif ($res['difficulty'] == 3) {
+												echo "Hard";
+											} else {
+												echo "Unknown";
+											}
+											echo "</td>";    
+											echo "<td>
+												<a href=\"index.php?page=edit&id=" . htmlspecialchars($res['id']) . "\" class=\"btn btn-success\">Edit</a> 
+												<a href=\"#\" class=\"btn btn-danger\" data-bs-toggle=\"modal\" data-bs-target=\"#deleteConfirmationModal\" data-delete-url=\"delete.php?id=" . htmlspecialchars($res['id']) . "\">Delete</a>
+											</td>";
+											echo "</tr>";
+										}
+									?>
+								</tbody>
+							</table>
+						<?php
+					}
 				?>
 			</div>
 		</main>
@@ -108,6 +126,5 @@
 				});
 			});
 		</script>
-
 	</body>
 </html>
