@@ -1,7 +1,7 @@
 <?php
     if(isset($_GET['id'])) {
         $id = $_GET['id'];
-        $query = "SELECT * FROM recipes WHERE id = $id";
+        $query = "SELECT * FROM recipe.all WHERE id = $id";
         $result = mysqli_query($mysqli, $query);
 
         if($result) {
@@ -13,8 +13,8 @@
                 $steps = nl2br(htmlspecialchars($unescapedSteps));
                 $ingredients = nl2br(htmlspecialchars($res['ingredients'] ?? ''));
                 $difficulty = htmlspecialchars($res['difficulty'] ?? '');
-                $picture = htmlspecialchars($res['image_path'] ?? '');
-                $notes = nl2br(htmlspecialchars($res['instructions'] ?? ''));
+                $picture = htmlspecialchars($res['picture'] ?? '');
+                $notes = nl2br(htmlspecialchars($res['notes'] ?? ''));
                 $time_minutes = htmlspecialchars($res['time_minutes'] ?? '');
                 $portions = htmlspecialchars($res['portions'] ?? '');
                 $tags = htmlspecialchars($res['tags'] ?? '');
