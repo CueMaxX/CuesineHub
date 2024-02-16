@@ -2,6 +2,10 @@
 	// Include database connection file
 	include_once("config.php");
 
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+
+
 	// Initialize variables
 	$title = $steps = $ingredients = $difficulty = $picture = $notes = $time_minutes = $portions = $tags = "";
 	$titleErr = $stepsErr = $ingredientsErr = $difficultyErr = $pictureErr = $notesErr = $time_minutesErr = $portionsErr = $tagsErr = "";
@@ -58,8 +62,8 @@
 		// If no empty fields, proceed with inserting data
 		if(empty($titleErr) && empty($stepsErr) && empty($ingredientsErr) && empty($difficultyErr) && empty($time_minutesErr) && empty($portionsErr) && empty($pictureErr)) {
 			// Insert new recipe
-			$stmt = $mysqli->prepare("INSERT INTO recipes (title, time_minutes, difficulty, instructions, image_path, steps, ingredients, portions, tags) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-			$stmt->bind_param("sisssssis", $title, $time_minutes, $difficulty, $notes, $picture, $steps, $ingredients, $portions, $tags);
+			$stmt = $mysqli->prepare("INSERT INTO recipe.all (title, steps, ingredients, difficulty, picture, notes, time_minutes, portions, tags) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("sssisssis", $title, $steps, $ingredients, $difficulty, $picture, $notes, $time_minutes, $portions, $tags);
 			$stmt->execute();
 
 			if($stmt->errno) {

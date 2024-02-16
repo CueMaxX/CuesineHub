@@ -47,7 +47,7 @@
         // If no empty fields, proceed with updating data
         if(empty($titleErr) && empty($stepsErr) && empty($ingredientsErr) && empty($difficultyErr) && empty($pictureErr) && empty($time_minutesErr) && empty($portionsErr)) {
             // Update recipe
-            $stmt = $mysqli->prepare("UPDATE recipes SET title=?, time_minutes=?, difficulty=?, instructions=?, image_path=?, steps=?, ingredients=?, portions=?, tags=? WHERE id=?");
+            $stmt = $mysqli->prepare("UPDATE recipe.all SET title=?, time_minutes=?, difficulty=?, notes=?, picture=?, steps=?, ingredients=?, portions=?, tags=? WHERE id=?");
 			$stmt->bind_param("sisssssisi", $title, $time_minutes, $difficulty, $notes, $picture, $steps, $ingredients, $portions, $tags, $id);
             $stmt->execute();
 
@@ -61,15 +61,15 @@
     // Retrieve recipe details for editing
 	if(isset($_GET['id'])) {
 		$id = $_GET['id'];
-		$result = mysqli_query($mysqli, "SELECT * FROM recipes WHERE id=$id");
+		$result = mysqli_query($mysqli, "SELECT * FROM recipe.all WHERE id=$id");
 		if($result) {
 			$res = mysqli_fetch_assoc($result);
 			$title = $res['title'];
 			$steps = str_replace('\r\n', "\r\n", $res['steps']);
 			$ingredients = $res['ingredients'];
 			$difficulty = $res['difficulty'];
-			$picture = $res['image_path']; // Fetch picture link from the 'image_path' column
-			$notes = $res['instructions'];
+			$picture = $res['picture'];
+			$notes = $res['notes'];
 			$time_minutes = $res['time_minutes'];
 			$portions = isset($res['portions']) ? $res['portions'] : ""; // Initialize to empty string if not set
 			$tags = isset($res['tags']) ? $res['tags'] : ""; // Initialize to empty string if not set
