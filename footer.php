@@ -7,6 +7,6 @@
             <img src="resources/vendor/bootstrap5/icons/arrow-up.svg" alt="Back to top" style="width: 16px; height: 16px; margin-left: 4px;">
         </a>
         </span>
-        <p>© 2024 Created by </p>
+        <p>© 2024 Created by Maja Jurkowska and Ephraim Böhlert</p>
     </footer>
 </div>
