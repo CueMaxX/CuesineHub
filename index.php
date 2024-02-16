@@ -57,7 +57,7 @@
 								// Print recipes 
 								while ($res = mysqli_fetch_array($result)) {
 									echo "<tr>";
-									echo "<td><a href=\"index.php?page=details\">" . htmlspecialchars($res['title']) . "</a></td>";
+									echo "<td><a href=\"index.php?page=details&id=" . htmlspecialchars($res['id']) . "\" >" . htmlspecialchars($res['title']) . "</a></td>";
 									echo "<td>" . htmlspecialchars($res['time_minutes']) . " Minutes </td>";
 									echo "<td>" . htmlspecialchars($res['difficulty']) . "</td>";    
 									echo "<td>

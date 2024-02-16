@@ -3,8 +3,8 @@
 include_once("config.php");
 // Retrieve id value from querystring parameter
 //THIS SHOULD WORK LATER ;)
-//$id = $_GET['id'];
-$id = 2;
+$id = $_GET['id'];
+//$id = 2;
 
 // Get contact by id
 $result = mysqli_query($mysqli, "SELECT * FROM recipe.all WHERE id=$id");
