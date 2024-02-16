@@ -5,7 +5,7 @@
 	include_once("config.php");
 
 	// Fetch contacts (in descending order)
-	$result = mysqli_query($mysqli, "SELECT * FROM recipes ORDER BY id DESC"); 
+	$result = mysqli_query($mysqli, "SELECT * FROM recipe ORDER BY id DESC"); 
 ?>
 <html>
 	<head>	
