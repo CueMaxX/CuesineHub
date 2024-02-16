@@ -1,7 +1,7 @@
 # CuesineHub
 
 A simple PHP-driven and real Database utilizing cookbook.
-Demo: cuemaxx.de/CuesineHub (read-only)
+Demo: [cuemaxx.de/CuesineHub](https://cuemaxx.de/CuesineHub/index.php) (read-only)
 
 This repository was created in 2024 for a group project at DHBW Mosbach.
 Maintainer:
