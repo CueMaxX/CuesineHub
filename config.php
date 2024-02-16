@@ -1,8 +1,8 @@
 <?php
 // Basic connection settings
 $databaseHost = '127.0.0.1';
-$databaseUsername = 'root';
-$databasePassword = '30515123';
+$databaseUsername = 'webuser';
+$databasePassword = 'gJsUGYAy3W7peM';
 $databaseName = 'recipe';
 
 // Connect to the database
