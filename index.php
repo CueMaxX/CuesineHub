@@ -41,7 +41,7 @@
 					if (isset($_GET['page'])) {
 						$page = $_GET['page'];
 						// Whitelist of allowed pages
-						$allowedPages = ['add', 'edit', 'details'];
+						$allowedPages = ['add', 'edit', 'details', 'about', 'contact'];
 						// Check if the requested page is in the whitelist and include it
 						if (in_array($page, $allowedPages)) {
 							include $page . '.php';

@@ -15,6 +15,14 @@
                     <a class="nav-link" href="index.php?page=add">Add Recipe</a>
                 </li>
             </ul>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.php?page=about">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="index.php?page=contact">Contact</a>
+                </li>
+            </ul>
         </div>
     </div>
 </nav>

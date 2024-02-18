@@ -116,54 +116,42 @@
 
 <script>
     document.getElementById("updateIngredients").addEventListener("click", function() {
-    var numPeople = parseInt(document.getElementById("numPeople").value, 10);
+        var numPeople = parseInt(document.getElementById("numPeople").value, 10);
 
-    var ingredientsListItems = document.querySelectorAll("#ingredients li");
+        var ingredientsListItems = document.querySelectorAll("#ingredients li");
 
-    var updatedIngredients = [];
-    ingredientsListItems.forEach(function(item) {
-        var text = item.textContent || item.innerText;
+        var updatedIngredients = [];
+        ingredientsListItems.forEach(function(item) {
+            var text = item.textContent || item.innerText;
 
-        // Updated regex to include decimal values
-        // This regex now correctly captures quantities expressed as decimals
-        var match = text.match(/^(\d+(?:\.\d+)?)\s*([a-z]+)\s*(.*)$/i);
+            // Updated regex to include decimal values
+            // This regex now correctly captures quantities expressed as decimals
+            var match = text.match(/^(\d+(?:\.\d+)?)\s*([a-z]+)\s*(.*)$/i);
 
-        if (match) {
-            var quantity = parseFloat(match[1]);
-            var unit = match[2];
-            var name = match[3];
+            if (match) {
+                var quantity = parseFloat(match[1]);
+                var unit = match[2];
+                var name = match[3];
 
-            // Multiply the quantity by the number of people and round to 2 decimal places
-            var updatedQuantity = (quantity * numPeople).toFixed(2);
+                // Multiply the quantity by the number of people and round to 2 decimal places
+                var updatedQuantity = (quantity * numPeople).toFixed(2);
 
-            // If the result is a whole number, parse it to remove unnecessary decimal places
-            updatedQuantity = updatedQuantity.endsWith('.00') ? parseInt(updatedQuantity) : updatedQuantity;
+                // If the result is a whole number, parse it to remove unnecessary decimal places
+                updatedQuantity = updatedQuantity.endsWith('.00') ? parseInt(updatedQuantity) : updatedQuantity;
 
-            updatedIngredients.push(`${updatedQuantity} ${unit} ${name}`);
-        } else {
-            // If the ingredient doesn't match the expected format, add it as is
-            updatedIngredients.push(text);
-        }
+                updatedIngredients.push(`${updatedQuantity} ${unit} ${name}`);
+            } else {
+                // If the ingredient doesn't match the expected format, add it as is
+                updatedIngredients.push(text);
+            }
+        });
+
+        // Update the ingredients list in the HTML
+        var updatedListHtml = updatedIngredients.map(ingredient => `<li>${ingredient}</li>`).join('');
+
+        document.getElementById("ingredients").innerHTML = updatedListHtml;
+
+        // Update servings display
+        document.getElementById("servings").textContent = `${numPeople} servings`;
     });
-
-    // Update the ingredients list in the HTML
-    var updatedListHtml = updatedIngredients.map(ingredient => `<li>${ingredient}</li>`).join('');
-
-    document.getElementById("ingredients").innerHTML = updatedListHtml;
-
-    // Update servings display
-    document.getElementById("servings").textContent = `${numPeople} servings`;
-});
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
