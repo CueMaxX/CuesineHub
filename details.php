@@ -88,11 +88,18 @@
             <div class="card-body">
                 <ul id="ingredients">
                     <?php 
-                        // Decode HTML entities to ensure <br /> tags are correctly interpreted
+                        // Decode HTML entities to ensure tags and special characters are correctly interpreted
                         $decodedIngredients = html_entity_decode($ingredients);
-                        
-                        // Split the decoded ingredients string into an array by <br /> tag
-                        $ingredientsArray = preg_split('/<br\s*\/?>/', $decodedIngredients);
+
+                        // Check if the ingredients string contains <br /> tags
+                        if (strpos($decodedIngredients, '<br') !== false) {
+                            // Split the decoded ingredients string into an array by <br /> tag
+                            $ingredientsArray = preg_split('/<br\s*\/?>/', $decodedIngredients);
+                        } else {
+                            // For strings without <br /> tags, split based on patterns (e.g., "200g" or "1 tbsp")
+                            // Adjust the regex pattern as needed to match your ingredients format
+                            $ingredientsArray = preg_split('/(?<=\d)(?=[a-zA-Z])|(?<=[a-zA-Z])(?=\d)/', $decodedIngredients);
+                        }
                         
                         // Loop through the array and output each ingredient as a list item
                         foreach ($ingredientsArray as $ingredient) {
